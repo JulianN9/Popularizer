@@ -1,5 +1,6 @@
 #include <string>
 #include <iostream>
+#include <fstream>
 #include <vector>
 #include <limits>
 
@@ -8,24 +9,132 @@ using std::cin;
 using std::endl;
 using std::string;
 using std::vector;
+using std::ofstream;
+using std::ifstream;
 
 class Dpops{
         string culture, religion;
-        int tpops, rule, landpops = 0, cappops = 0; 
-        int artpops = 0, beaurpops = 0, intelpops = 0, clerkpops = 0, offpops = 0;
-        int craftpops = 0, farmpops = 0, labpops = 0, serfpops = 0, slavepops = 0, soldierpops = 0;
+        int tpops, rule, landpops, cappops; 
+        int artpops, beaurpops, intelpops, clerkpops, offpops;
+        int craftpops, farmpops, serfpops, slavepops, soldierpops;
     public:
-        Dpops();
+        Dpops(){
+            culture = "";
+            religion = "";
+            tpops = 0, rule = 0;
+            landpops = 0, cappops = 0; 
+            artpops = 0, beaurpops = 0, intelpops = 0, clerkpops = 0, offpops = 0;
+            craftpops = 0, farmpops = 0, serfpops = 0, slavepops = 0, soldierpops = 0;
+        };
         int ruleout(){
             return rule;
         }
         void print(){
             cout << "The " << religion << " " << culture << " population has " << tpops << " people, of which:" <<endl;
-            cout << landpops << " are landowners, " << cappops << " are capitalists, " << artpops << " are artisans " << beaurpops << " are beaurocrats, " << intelpops << " are intellectuals, " << clerkpops << " are clerks, " << endl;
-            cout << offpops << " are officers, " << craftpops << " are craftsmen, " << farmpops << " are farmerns " << labpops << " are labourers, " << serfpops << " are serfs, " << slavepops << " are slaves, " << soldierpops << " are soldiers." << endl;
+            cout << landpops << " are landowners, " << cappops << " are capitalists, " << artpops << " are artisans " << beaurpops << " are bureaucrats, " << intelpops << " are intellectuals, " << clerkpops << " are clerks, " << endl;
+            cout << offpops << " are officers, " << craftpops << " are craftsmen, " << farmpops << " are farmers " << serfpops << " are serfs, " << slavepops << " are slaves, " << soldierpops << " are soldiers." << endl;
+        }
+        void output(ofstream &outstream){
+            if (landpops>0){
+                outstream << "\taristocrats = { \n"
+                          << "\t\tculture = " << culture << "\n"
+                          << "\t\treligion = " << religion << "\n"
+                          << "\t\tsize = " << landpops << "\n"
+                          << "\t}" << "\n"
+                          << "\n";
+            }
+            if (cappops>0){
+                outstream << "\tcapitalists = { \n"
+                          << "\t\tculture = " << culture << "\n"
+                          << "\t\treligion = " << religion << "\n"
+                          << "\t\tsize = " << cappops << "\n"
+                          << "\t}" << "\n"
+                          << "\n";
+            }
+            if (artpops>0){
+                outstream << "\tartisans = { \n"
+                          << "\t\tculture = " << culture << "\n"
+                          << "\t\treligion = " << religion << "\n"
+                          << "\t\tsize = " << artpops << "\n"
+                          << "\t}" << "\n"
+                          << "\n";
+            }
+            if (beaurpops>0){
+                outstream << "\tbureaucrats = { \n"
+                          << "\t\tculture = " << culture << "\n"
+                          << "\t\treligion = " << religion << "\n"
+                          << "\t\tsize = " << beaurpops << "\n"
+                          << "\t}" << "\n"
+                          << "\n";
+            }         
+            if (intelpops>0){
+                outstream << "\tclergymen = { \n"
+                          << "\t\tculture = " << culture << "\n"
+                          << "\t\treligion = " << religion << "\n"
+                          << "\t\tsize = " << intelpops << "\n"
+                          << "\t}" << "\n"
+                          << "\n";
+            }   
+            if (clerkpops>0){
+                outstream << "\tclerks = { \n"
+                          << "\t\tculture = " << culture << "\n"
+                          << "\t\treligion = " << religion << "\n"
+                          << "\t\tsize = " << clerkpops << "\n"
+                          << "\t}" << "\n"
+                          << "\n";
+            }         
+            if (offpops>0){
+                outstream << "\tofficers = { \n"
+                          << "\t\tculture = " << culture << "\n"
+                          << "\t\treligion = " << religion << "\n"
+                          << "\t\tsize = " << offpops << "\n"
+                          << "\t}" << "\n"
+                          << "\n";
+            }
+            if (craftpops>0){
+                outstream << "\tcraftsmen = { \n"
+                          << "\t\tculture = " << culture << "\n"
+                          << "\t\treligion = " << religion << "\n"
+                          << "\t\tsize = " << craftpops << "\n"
+                          << "\t}" << "\n"
+                          << "\n";
+            }    
+            if (farmpops>0){
+                outstream << "\tfarmers = { \n"
+                          << "\t\tculture = " << culture << "\n"
+                          << "\t\treligion = " << religion << "\n"
+                          << "\t\tsize = " << farmpops << "\n"
+                          << "\t}" << "\n"
+                          << "\n";
+            }
+            if (serfpops>0){
+                outstream << "\tserfs = { \n"
+                          << "\t\tculture = " << culture << "\n"
+                          << "\t\treligion = " << religion << "\n"
+                          << "\t\tsize = " << serfpops << "\n"
+                          << "\t}" << "\n"
+                          << "\n";
+            }     
+            if (slavepops>0){
+                outstream << "\tslaves = { \n"
+                          << "\t\tculture = " << culture << "\n"
+                          << "\t\treligion = " << religion << "\n"
+                          << "\t\tsize = " << slavepops << "\n"
+                          << "\t}" << "\n"
+                          << "\n";
+            }
+            if (soldierpops>0){
+                outstream << "\tsoldiers = { \n"
+                          << "\t\tculture = " << culture << "\n"
+                          << "\t\treligion = " << religion << "\n"
+                          << "\t\tsize = " << soldierpops << "\n"
+                          << "\t}" << "\n"
+                          << "\n";
+            }
+                      
         }
         int rpops(){
-            return tpops - ( landpops + cappops + artpops + beaurpops + intelpops + clerkpops + offpops + craftpops + farmpops + labpops + serfpops + slavepops + soldierpops );
+            return tpops - ( landpops + cappops + artpops + beaurpops + intelpops + clerkpops + offpops + craftpops + farmpops + serfpops + slavepops + soldierpops );
         }
         void addpops( int sol, int which ){
             switch (which)
@@ -58,7 +167,6 @@ class Dpops{
                     farmpops = sol;
                     break;
                 case 10:
-                    labpops = sol;
                     break;
                 case 11:
                     serfpops = sol;
@@ -79,6 +187,9 @@ class Dpops{
             religion = rlg;
             tpops = culturepop;
             rule = culturerule;
+            landpops = 0, cappops = 0; 
+            artpops = 0, beaurpops = 0, intelpops = 0, clerkpops = 0, offpops = 0;
+            craftpops = 0, farmpops = 0, serfpops = 0, slavepops = 0, soldierpops = 0;
         }
 };
 
@@ -89,6 +200,16 @@ void getint(int &f, bool percent = false, bool crule = false){
         cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         f = -1;
         cout << "Invalid input, try agian" << endl;
+        cin >> f;
+    }
+}
+
+void getstring(string &f){
+    cin >> f;
+    while (cin.fail() || f.empty() ){
+        cin.clear();
+        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        cout << "Empty input, try agian" << endl;
         cin >> f;
     }
 }
@@ -230,20 +351,34 @@ void assignPoor(vector<Dpops> &Vpops, int *nc, int *tc, int j, int &tcraft, int 
 void populate( bool batch )
 {
     vector<Dpops> Vpops;
-    int tland, tcap, tart, tbeau, tintel, tclerk, toff, tcraft, pfarm, plab, pserf, pslave, tsold;
+    int tland, tcap, tart, tbeau, tintel, tclerk, toff, tcraft, nart, part, pfarm, pserf, pslave, tsold;
     int totalpercent = 0, culturepercent;
     string culture, religion;
     int totalpop, culturepop, crule, state;
     char input;
-    bool loop;
+    bool loop = true;
 
     cout << "How many landowners?" << endl;
     getint(tland);
     cout << "How many capitalists?" << endl;
     getint(tcap);
-    cout << "How many artisans?" << endl;
-    getint(tcap);
-    cout << "How many beaurocrats?" << endl;
+    cout << "Percentage of artisans (1=5%, 2=10%, 3=25%)?" << endl;
+    getint(nart, true, true);
+    switch (nart){
+        case 1:
+            part = 5;
+            break;
+        case 2:
+            part = 10;
+            break;
+        case 3:
+            part = 25;
+            break;
+        default:
+            cout << "error" << endl;
+            break;
+    }
+    cout << "How many bureaucrats?" << endl;
     getint(tbeau);
     cout << "How many intelectuals?" << endl; 
     getint(tintel);
@@ -259,11 +394,12 @@ void populate( bool batch )
 
     while ( loop )
     {
-        cout << "What is the state number" << endl;
+        cout << "What is the province number" << endl;
         getint(state);
-        cout << "What is the total population of the state (1 = 1k)?" << endl;
+        cout << "What is the total population of the province (1 = 1k)?" << endl;
         getint(totalpop);
         totalpop *= 1000;
+        tart = (part*totalpop)/100;
 
         while (totalpercent != 100)
         {
@@ -271,16 +407,14 @@ void populate( bool batch )
                 totalpercent = 0;
                 cout << "Went over 100 percent, try again." << endl;
             }
-            cout << "For the remainder, what is the percentage of laborers (10 = 10%)?" << endl;
-            getint(plab,true);
-            cout << "Of farmers?" << endl;
+            cout << "For the remainder, what is the percentage of farmers (10 = 10%)?" << endl;
             getint(pfarm,true);
             cout << "Of serf?" << endl;
             getint(pserf,true);
-            cout << "How many slaves?" << endl;
+            cout << "Of slaves?" << endl;
             getint(pslave,true); 
 
-            totalpercent = plab + pfarm + pserf + pslave;
+            totalpercent = pfarm + pserf + pslave;
         }
 
 
@@ -295,12 +429,12 @@ void populate( bool batch )
             }
             cout << "Population: " << Vpops.size()+1 << endl;
             cout << "What is the culture of this population (exact name for the file)?" << endl;
-            cin >> culture;
+            getstring(culture);
             cout << "What is the religion of this culutre (exact name)?" << endl;
-            cin >> religion;
+            getstring(religion);
             cout << "Is this pop ruling (1), middle (2) or lower (3) class?" << endl;
             getint(crule,true,true);
-            cout << "What is the percentage of the population of the state?" << endl;
+            cout << "What is the percentage of the population of this province?" << endl;
             getint(culturepercent,true);
 
 
@@ -317,6 +451,10 @@ void populate( bool batch )
         tc[2] = totalpop - ( tc[0] + tc[1]);
 
         calcRemaining(nc, Vpops);
+
+        if(nc[0] < tc[0]){
+            cout << "Warning: Upper class too small, will split evenly into middle" << endl;
+        }
 
         assignRich( Vpops, nc, tc, 0, tland, tcap);
 
@@ -365,19 +503,29 @@ void populate( bool batch )
         }
 
         for( int i = 0; i < length; i++){
-            int farmers, laborers, serfs, slaves;
+            int farmers, serfs, slaves;
             farmers = (pfarm*Vpops[i].rpops())/100;
-            laborers = (plab*Vpops[i].rpops())/100;
             serfs = (pserf*Vpops[i].rpops())/100;
             slaves = (pslave*Vpops[i].rpops())/100;
             Vpops[i].addpops(farmers,9);
-            Vpops[i].addpops(laborers,10);
             Vpops[i].addpops(serfs,11);
             Vpops[i].addpops(slaves,12);
         }
+
+
+        string filename = std::to_string(state) + ".txt";
+
+        ofstream outflow;
+        outflow.open (filename);
+
+        outflow << std::to_string(state) << " = {\n";
         for( int i = 0; i < length; i++){
             Vpops[i].print();
+            Vpops[i].output(outflow);
         }
+        outflow << "}";
+
+        outflow.close();
 
         if (!batch){
             loop = false;
