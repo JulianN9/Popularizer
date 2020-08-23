@@ -239,8 +239,9 @@ void calcRemaining(int *nc, vector<Dpops> Vpops){
     }
 }
 
-void assignRich(vector<Dpops> &Vpops, int *nc, int *tc, int j, int &tland, int &tcap){
-    int landtracker = 0, captracker = 0, landtoremove, captoremove;
+void assignRich(vector<Dpops> &Vpops, int *nc, int *tc, int j, int &tland, int &tcap, int &toff){
+    int landtracker = 0, captracker = 0, offtracker = 0;
+    int landtoremove, captoremove, offtoremove;
     int length = Vpops.size();
     for( int i = 0; i < length; i++){
         int sc = Vpops[i].ruleout();
@@ -248,29 +249,36 @@ void assignRich(vector<Dpops> &Vpops, int *nc, int *tc, int j, int &tland, int &
             if( nc[j] > tc[0] ){
                 landtoremove = (tland*Vpops[i].rpops())/nc[j];
                 captoremove = (tcap*Vpops[i].rpops())/nc[j];
+                offtoremove = (toff*Vpops[i].rpops())/nc[j];
                 Vpops[i].addpops(landtoremove,1);
                 Vpops[i].addpops(captoremove,2);
+                Vpops[i].addpops(offtoremove,7);
                 landtracker += landtoremove;
                 captracker += captoremove;
+                offtracker += offtoremove;
             }
             else{
                 landtoremove = (tland*Vpops[i].rpops())/tc[0];
                 captoremove = (tcap*Vpops[i].rpops())/tc[0];
+                offtoremove = (toff*Vpops[i].rpops())/tc[0];
                 Vpops[i].addpops(landtoremove,1);
                 Vpops[i].addpops(captoremove,2);
+                Vpops[i].addpops(offtoremove,7);
                 landtracker += landtoremove;
                 captracker += captoremove;
+                offtracker += offtoremove;
             }
         }
     }
     tland -= landtracker;
     tcap -= captracker;
-    tc[0] -= (landtracker + captracker);
+    toff -= offtracker;
+    tc[0] -= (landtracker + captracker + offtracker);
 }
 
-void assignMiddle(vector<Dpops> &Vpops, int *nc, int *tc, int j, int &tart, int &tbeau, int &tintel, int &tclerk, int &toff){
-    int arttracker = 0, beautracker = 0, inteltracker = 0, clerktracker = 0, offtracker = 0;
-    int arttoremove, beautoremove, inteltoremove, clerktoremove, offtoremove;
+void assignMiddle(vector<Dpops> &Vpops, int *nc, int *tc, int j, int &tart, int &tbeau, int &tintel, int &tclerk, int &tsold){
+    int arttracker = 0, beautracker = 0, inteltracker = 0, clerktracker = 0, soldiertracker = 0;
+    int arttoremove, beautoremove, inteltoremove, clerktoremove, soldtoremove;
     int length = Vpops.size();
     for( int i = 0; i < length; i++){
         int sc = Vpops[i].ruleout();
@@ -280,34 +288,34 @@ void assignMiddle(vector<Dpops> &Vpops, int *nc, int *tc, int j, int &tart, int 
                 beautoremove = (tbeau*Vpops[i].rpops())/nc[j];
                 inteltoremove = (tintel*Vpops[i].rpops())/nc[j];
                 clerktoremove = (tclerk*Vpops[i].rpops())/nc[j];
-                offtoremove = (toff*Vpops[i].rpops())/nc[j];
+                soldtoremove = (tsold*Vpops[i].rpops())/nc[j]; 
                 Vpops[i].addpops(arttoremove,3);
                 Vpops[i].addpops(beautoremove,4);
                 Vpops[i].addpops(inteltoremove,5);
                 Vpops[i].addpops(clerktoremove,6);
-                Vpops[i].addpops(offtoremove,7);
+                Vpops[i].addpops(soldtoremove,13);
                 arttracker += arttoremove;
                 beautracker += beautoremove;
                 inteltracker += inteltoremove;
                 clerktracker += clerktoremove;
-                offtracker += offtoremove;
+                soldiertracker += soldtoremove;
             }
             else{
                 arttoremove = (tart*Vpops[i].rpops())/tc[1];
                 beautoremove = (tbeau*Vpops[i].rpops())/tc[1];
                 inteltoremove = (tintel*Vpops[i].rpops())/tc[1];
                 clerktoremove = (tclerk*Vpops[i].rpops())/tc[1];
-                offtoremove = (toff*Vpops[i].rpops())/tc[1];
+                soldtoremove = (tsold*Vpops[i].rpops())/tc[1];
                 Vpops[i].addpops(arttoremove,3);
                 Vpops[i].addpops(beautoremove,4);
                 Vpops[i].addpops(inteltoremove,5);
                 Vpops[i].addpops(clerktoremove,6);
-                Vpops[i].addpops(offtoremove,7);
+                Vpops[i].addpops(soldtoremove,13);
                 arttracker += arttoremove;
                 beautracker += beautoremove;
                 inteltracker += inteltoremove;
                 clerktracker += clerktoremove;
-                offtracker += offtoremove;
+                soldiertracker += soldtoremove;
             }
         }
     }
@@ -315,37 +323,31 @@ void assignMiddle(vector<Dpops> &Vpops, int *nc, int *tc, int j, int &tart, int 
     tbeau -= beautracker;
     tintel -= inteltracker;
     tclerk -= clerktracker;
-    toff -= offtracker;
-    tc[1] -= (arttracker + beautracker + inteltracker + clerktracker + offtracker);
+    tsold -= soldiertracker;
+    tc[1] -= (arttracker + beautracker + inteltracker + clerktracker + soldiertracker);
 }
 
-void assignPoor(vector<Dpops> &Vpops, int *nc, int *tc, int j, int &tcraft, int &tsold){
-    int crafttracker = 0, soldiertracker = 0, crafttoremove, soldtoremove;
+void assignPoor(vector<Dpops> &Vpops, int *nc, int *tc, int j, int &tcraft){
+    int crafttracker = 0;
+    int crafttoremove;
     int length = Vpops.size();
     for( int i = 0; i < length; i++){
         int sc = Vpops[i].ruleout();
         if ( sc == j+1 ){
             if( nc[j] > tc[2] ){
                 crafttoremove = (tcraft*Vpops[i].rpops())/nc[j];
-                soldtoremove = (tsold*Vpops[i].rpops())/nc[j];
                 Vpops[i].addpops(crafttoremove,8);
-                Vpops[i].addpops(soldtoremove,13);
                 crafttracker += crafttoremove;
-                soldiertracker += soldtoremove;
             }
             else{
                 crafttoremove = (tcraft*Vpops[i].rpops())/tc[2];
-                soldtoremove = (tsold*Vpops[i].rpops())/tc[2];
                 Vpops[i].addpops(crafttoremove,8);
-                Vpops[i].addpops(soldtoremove,13);
                 crafttracker += crafttoremove;
-                soldiertracker += soldtoremove;
             }
         }
     }
     tcraft -= crafttracker;
-    tsold -= soldiertracker;
-    tc[0] -= (crafttracker + soldiertracker);
+    tc[0] -= (crafttracker);
 }
 
 void populate( bool batch )
@@ -447,7 +449,7 @@ void populate( bool batch )
 
         int length = Vpops.size();
         int nc [3] = {0,0,0};
-        int tc [3] = {tland + tcap,tart + tbeau + tintel + tclerk + toff,0};
+        int tc [3] = {tland + tcap + toff,tart + tbeau + tintel + tclerk + tsold,0};
         tc[2] = totalpop - ( tc[0] + tc[1]);
 
         calcRemaining(nc, Vpops);
@@ -456,49 +458,49 @@ void populate( bool batch )
             cout << "Warning: Upper class too small, will split evenly into middle" << endl;
         }
 
-        assignRich( Vpops, nc, tc, 0, tland, tcap);
+        assignRich( Vpops, nc, tc, 0, tland, tcap, toff);
 
         if (tc[0] > 0){
             calcRemaining(nc, Vpops);
 
-            assignRich( Vpops, nc, tc, 1, tland, tcap);
+            assignRich( Vpops, nc, tc, 1, tland, tcap, toff);
 
             if (tc[0] > 0){
                 calcRemaining(nc, Vpops);
 
-                assignRich( Vpops, nc, tc, 2, tland, tcap);
+                assignRich( Vpops, nc, tc, 2, tland, tcap, toff);
             }
         }
 
         calcRemaining(nc, Vpops);
 
-        assignMiddle( Vpops, nc, tc, 0, tart, tbeau, tintel, tclerk, toff);
+        assignMiddle( Vpops, nc, tc, 0, tart, tbeau, tintel, tclerk, tsold);
 
         if (tc[1] > 0){
             calcRemaining(nc, Vpops);
 
-            assignMiddle( Vpops, nc, tc, 1, tart, tbeau, tintel, tclerk, toff);
+            assignMiddle( Vpops, nc, tc, 1, tart, tbeau, tintel, tclerk, tsold);
 
             if (tc[1] > 0){
                 calcRemaining(nc, Vpops);
 
-                assignMiddle( Vpops, nc, tc, 2, tart, tbeau, tintel, tclerk, toff);
+                assignMiddle( Vpops, nc, tc, 2, tart, tbeau, tintel, tclerk, tsold);
             }
         }
 
         calcRemaining(nc, Vpops);
 
-        assignPoor(Vpops, nc, tc, 0, tcraft, tsold);
+        assignPoor(Vpops, nc, tc, 0, tcraft);
 
         if (tc[2] > 0){
             calcRemaining(nc, Vpops);
 
-            assignPoor(Vpops, nc, tc, 1, tcraft, tsold);
+            assignPoor(Vpops, nc, tc, 1, tcraft);
 
             if (tc[2] > 0){
                 calcRemaining(nc, Vpops);
 
-                assignPoor(Vpops, nc, tc, 2, tcraft, tsold);
+                assignPoor(Vpops, nc, tc, 2, tcraft);
             }
         }
 
