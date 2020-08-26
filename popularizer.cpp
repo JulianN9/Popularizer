@@ -353,7 +353,8 @@ void assignPoor(vector<Dpops> &Vpops, int *nc, int *tc, int j, int &tcraft){
 void populate( bool batch )
 {
     vector<Dpops> Vpops;
-    int tland, tcap, tart, tbeau, tintel, tclerk, toff, tcraft, nart, part, pfarm, pserf, pslave, tsold;
+    int sland, scap, sbeau, sintel, sclerk, soff, scraft, sart, ssold;
+    int nart, part, pfarm, pserf, pslave;
     int totalpercent = 0, culturepercent;
     string culture, religion;
     int totalpop, culturepop, crule, state;
@@ -361,9 +362,9 @@ void populate( bool batch )
     bool loop = true;
 
     cout << "How many landowners?" << endl;
-    getint(tland);
+    getint(sland);
     cout << "How many capitalists?" << endl;
-    getint(tcap);
+    getint(scap);
     cout << "Percentage of artisans (1=5%, 2=10%, 3=25%)?" << endl;
     getint(nart, true, true);
     switch (nart){
@@ -381,27 +382,28 @@ void populate( bool batch )
             break;
     }
     cout << "How many bureaucrats?" << endl;
-    getint(tbeau);
+    getint(sbeau);
     cout << "How many intelectuals?" << endl; 
-    getint(tintel);
+    getint(sintel);
     cout << "How many clerks?" << endl;
-    getint(tclerk);
+    getint(sclerk);
     cout << "How many officers?" << endl;
-    getint(toff);
+    getint(soff);
     cout << "How many craftsmen?" << endl;
-    getint(tcraft);
+    getint(scraft);
     cout << "How many soldiers?" << endl;
-    getint(tsold);
+    getint(ssold);
 
 
     while ( loop )
     {
+        int tland = sland, tcap = scap, tbeau = sbeau, tintel = sintel, tclerk = sclerk, toff = soff, tcraft = scraft, nart = sart, tsold = ssold;
         cout << "What is the province number" << endl;
         getint(state);
         cout << "What is the total population of the province (1 = 1k)?" << endl;
         getint(totalpop);
         totalpop *= 1000;
-        tart = (part*totalpop)/100;
+        int tart = (part*totalpop)/100;
 
         while (totalpercent != 100)
         {
