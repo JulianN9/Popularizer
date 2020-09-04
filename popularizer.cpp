@@ -250,9 +250,15 @@ void assignRich(vector<Dpops> &Vpops, int *nc, int *tc, int j, int &tland, int &
                 landtoremove = (tland*Vpops[i].rpops())/nc[j];
                 captoremove = (tcap*Vpops[i].rpops())/nc[j];
                 offtoremove = (toff*Vpops[i].rpops())/nc[j];
-                Vpops[i].addpops(landtoremove,1);
-                Vpops[i].addpops(captoremove,2);
-                Vpops[i].addpops(offtoremove,7);
+                if(landtoremove != 1){
+                    Vpops[i].addpops(landtoremove,1);
+                }
+                if(captoremove != 1){
+                    Vpops[i].addpops(captoremove,2);   
+                }
+                if(offtoremove != 1){
+                    Vpops[i].addpops(offtoremove,7);
+                }
                 landtracker += landtoremove;
                 captracker += captoremove;
                 offtracker += offtoremove;
@@ -261,9 +267,15 @@ void assignRich(vector<Dpops> &Vpops, int *nc, int *tc, int j, int &tland, int &
                 landtoremove = (tland*Vpops[i].rpops())/tc[0];
                 captoremove = (tcap*Vpops[i].rpops())/tc[0];
                 offtoremove = (toff*Vpops[i].rpops())/tc[0];
-                Vpops[i].addpops(landtoremove,1);
-                Vpops[i].addpops(captoremove,2);
-                Vpops[i].addpops(offtoremove,7);
+                if(landtoremove != 1){
+                    Vpops[i].addpops(landtoremove,1);
+                }
+                if(captoremove != 1){
+                    Vpops[i].addpops(captoremove,2);   
+                }
+                if(offtoremove != 1){
+                    Vpops[i].addpops(offtoremove,7);
+                }
                 landtracker += landtoremove;
                 captracker += captoremove;
                 offtracker += offtoremove;
@@ -289,11 +301,21 @@ void assignMiddle(vector<Dpops> &Vpops, int *nc, int *tc, int j, int &tart, int 
                 inteltoremove = (tintel*Vpops[i].rpops())/nc[j];
                 clerktoremove = (tclerk*Vpops[i].rpops())/nc[j];
                 soldtoremove = (tsold*Vpops[i].rpops())/nc[j]; 
-                Vpops[i].addpops(arttoremove,3);
-                Vpops[i].addpops(beautoremove,4);
-                Vpops[i].addpops(inteltoremove,5);
-                Vpops[i].addpops(clerktoremove,6);
-                Vpops[i].addpops(soldtoremove,13);
+                if(arttoremove != 1){
+                    Vpops[i].addpops(arttoremove,3);
+                }
+                if(beautoremove != 1){
+                    Vpops[i].addpops(beautoremove,4);
+                }
+                if(inteltoremove != 1){
+                    Vpops[i].addpops(inteltoremove,5);
+                }
+                if(clerktoremove != 1){
+                    Vpops[i].addpops(clerktoremove,6);
+                }
+                if(soldtoremove != 1){
+                    Vpops[i].addpops(soldtoremove,13);
+                }
                 arttracker += arttoremove;
                 beautracker += beautoremove;
                 inteltracker += inteltoremove;
@@ -306,11 +328,21 @@ void assignMiddle(vector<Dpops> &Vpops, int *nc, int *tc, int j, int &tart, int 
                 inteltoremove = (tintel*Vpops[i].rpops())/tc[1];
                 clerktoremove = (tclerk*Vpops[i].rpops())/tc[1];
                 soldtoremove = (tsold*Vpops[i].rpops())/tc[1];
-                Vpops[i].addpops(arttoremove,3);
-                Vpops[i].addpops(beautoremove,4);
-                Vpops[i].addpops(inteltoremove,5);
-                Vpops[i].addpops(clerktoremove,6);
-                Vpops[i].addpops(soldtoremove,13);
+                if(arttoremove != 1){
+                    Vpops[i].addpops(arttoremove,3);
+                }
+                if(beautoremove != 1){
+                    Vpops[i].addpops(beautoremove,4);
+                }
+                if(inteltoremove != 1){
+                    Vpops[i].addpops(inteltoremove,5);
+                }
+                if(clerktoremove != 1){
+                    Vpops[i].addpops(clerktoremove,6);
+                }
+                if(soldtoremove != 1){
+                    Vpops[i].addpops(soldtoremove,13);
+                }
                 arttracker += arttoremove;
                 beautracker += beautoremove;
                 inteltracker += inteltoremove;
@@ -336,12 +368,16 @@ void assignPoor(vector<Dpops> &Vpops, int *nc, int *tc, int j, int &tcraft){
         if ( sc == j+1 ){
             if( nc[j] > tc[2] ){
                 crafttoremove = (tcraft*Vpops[i].rpops())/nc[j];
-                Vpops[i].addpops(crafttoremove,8);
+                if(crafttoremove != 1){
+                    Vpops[i].addpops(crafttoremove,8);
+                }
                 crafttracker += crafttoremove;
             }
             else{
                 crafttoremove = (tcraft*Vpops[i].rpops())/tc[2];
-                Vpops[i].addpops(crafttoremove,8);
+                if(crafttoremove != 1){
+                    Vpops[i].addpops(crafttoremove,8);
+                }
                 crafttracker += crafttoremove;
             }
         }
