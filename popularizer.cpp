@@ -3,6 +3,7 @@
 #include <fstream>
 #include <vector>
 #include <limits>
+#include "Dpops.h"
 
 using std::cout;
 using std::cin;
@@ -12,385 +13,11 @@ using std::vector;
 using std::ofstream;
 using std::ifstream;
 
-class Dpops{
-        string culture, religion;
-        int tpops, rule, landpops, cappops; 
-        int artpops, beaurpops, intelpops, clerkpops, offpops;
-        int craftpops, farmpops, serfpops, slavepops, soldierpops;
-    public:
-        Dpops(){
-            culture = "";
-            religion = "";
-            tpops = 0, rule = 0;
-            landpops = 0, cappops = 0; 
-            artpops = 0, beaurpops = 0, intelpops = 0, clerkpops = 0, offpops = 0;
-            craftpops = 0, farmpops = 0, serfpops = 0, slavepops = 0, soldierpops = 0;
-        };
-        int ruleout(){
-            return rule;
-        }
-        void print(){
-            cout << "The " << religion << " " << culture << " population has " << tpops << " people, of which:" <<endl;
-            cout << landpops << " are landowners, " << cappops << " are capitalists, " << artpops << " are artisans " << beaurpops << " are bureaucrats, " << intelpops << " are intellectuals, " << clerkpops << " are clerks, " << endl;
-            cout << offpops << " are officers, " << craftpops << " are craftsmen, " << farmpops << " are farmers " << serfpops << " are serfs, " << slavepops << " are slaves, " << soldierpops << " are soldiers." << endl;
-        }
-        void output(ofstream &outstream){
-            if (landpops>0){
-                outstream << "\taristocrats = { \n"
-                          << "\t\tculture = " << culture << "\n"
-                          << "\t\treligion = " << religion << "\n"
-                          << "\t\tsize = " << landpops << "\n"
-                          << "\t}" << "\n"
-                          << "\n";
-            }
-            if (cappops>0){
-                outstream << "\tcapitalists = { \n"
-                          << "\t\tculture = " << culture << "\n"
-                          << "\t\treligion = " << religion << "\n"
-                          << "\t\tsize = " << cappops << "\n"
-                          << "\t}" << "\n"
-                          << "\n";
-            }
-            if (artpops>0){
-                outstream << "\tartisans = { \n"
-                          << "\t\tculture = " << culture << "\n"
-                          << "\t\treligion = " << religion << "\n"
-                          << "\t\tsize = " << artpops << "\n"
-                          << "\t}" << "\n"
-                          << "\n";
-            }
-            if (beaurpops>0){
-                outstream << "\tbureaucrats = { \n"
-                          << "\t\tculture = " << culture << "\n"
-                          << "\t\treligion = " << religion << "\n"
-                          << "\t\tsize = " << beaurpops << "\n"
-                          << "\t}" << "\n"
-                          << "\n";
-            }         
-            if (intelpops>0){
-                outstream << "\tclergymen = { \n"
-                          << "\t\tculture = " << culture << "\n"
-                          << "\t\treligion = " << religion << "\n"
-                          << "\t\tsize = " << intelpops << "\n"
-                          << "\t}" << "\n"
-                          << "\n";
-            }   
-            if (clerkpops>0){
-                outstream << "\tclerks = { \n"
-                          << "\t\tculture = " << culture << "\n"
-                          << "\t\treligion = " << religion << "\n"
-                          << "\t\tsize = " << clerkpops << "\n"
-                          << "\t}" << "\n"
-                          << "\n";
-            }         
-            if (offpops>0){
-                outstream << "\tofficers = { \n"
-                          << "\t\tculture = " << culture << "\n"
-                          << "\t\treligion = " << religion << "\n"
-                          << "\t\tsize = " << offpops << "\n"
-                          << "\t}" << "\n"
-                          << "\n";
-            }
-            if (craftpops>0){
-                outstream << "\tcraftsmen = { \n"
-                          << "\t\tculture = " << culture << "\n"
-                          << "\t\treligion = " << religion << "\n"
-                          << "\t\tsize = " << craftpops << "\n"
-                          << "\t}" << "\n"
-                          << "\n";
-            }    
-            if (farmpops>0){
-                outstream << "\tfarmers = { \n"
-                          << "\t\tculture = " << culture << "\n"
-                          << "\t\treligion = " << religion << "\n"
-                          << "\t\tsize = " << farmpops << "\n"
-                          << "\t}" << "\n"
-                          << "\n";
-            }
-            if (serfpops>0){
-                outstream << "\tserfs = { \n"
-                          << "\t\tculture = " << culture << "\n"
-                          << "\t\treligion = " << religion << "\n"
-                          << "\t\tsize = " << serfpops << "\n"
-                          << "\t}" << "\n"
-                          << "\n";
-            }     
-            if (slavepops>0){
-                outstream << "\tslaves = { \n"
-                          << "\t\tculture = " << culture << "\n"
-                          << "\t\treligion = " << religion << "\n"
-                          << "\t\tsize = " << slavepops << "\n"
-                          << "\t}" << "\n"
-                          << "\n";
-            }
-            if (soldierpops>0){
-                outstream << "\tsoldiers = { \n"
-                          << "\t\tculture = " << culture << "\n"
-                          << "\t\treligion = " << religion << "\n"
-                          << "\t\tsize = " << soldierpops << "\n"
-                          << "\t}" << "\n"
-                          << "\n";
-            }
-                      
-        }
-        int rpops(){
-            return tpops - ( landpops + cappops + artpops + beaurpops + intelpops + clerkpops + offpops + craftpops + farmpops + serfpops + slavepops + soldierpops );
-        }
-        void addpops( int sol, int which ){
-            switch (which)
-            {
-                case 1:
-                    landpops = sol;
-                    break;
-                case 2:
-                    cappops = sol;
-                    break;
-                case 3:
-                    artpops = sol;
-                    break;
-                case 4:
-                    beaurpops = sol;
-                    break;
-                case 5:
-                    intelpops = sol;
-                    break;
-                case 6:
-                    clerkpops = sol;
-                    break;
-                case 7:
-                    offpops = sol;
-                    break;
-                case 8:
-                    craftpops = sol;
-                    break;
-                case 9:
-                    farmpops = sol;
-                    break;
-                case 10:
-                    break;
-                case 11:
-                    serfpops = sol;
-                    break;
-                case 12:
-                    slavepops = sol;
-                    break;
-                case 13:
-                    soldierpops = sol;
-                    break;
-                default:
-                    cout << "error" << endl;
-                    break;
-            }
-        }
-        Dpops( string clt, string rlg, int culturepop, int culturerule ){
-            culture = clt;
-            religion = rlg;
-            tpops = culturepop;
-            rule = culturerule;
-            landpops = 0, cappops = 0; 
-            artpops = 0, beaurpops = 0, intelpops = 0, clerkpops = 0, offpops = 0;
-            craftpops = 0, farmpops = 0, serfpops = 0, slavepops = 0, soldierpops = 0;
-        }
-};
-
-void getint(int &f, bool percent = false, bool crule = false){
-    cin >> f;
-    while (cin.fail() || f < 0 || ( f > 100 && percent ) || ( ( f > 3 || f < 1 ) && crule ) ){
-        cin.clear();
-        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        f = -1;
-        cout << "Invalid input, try agian" << endl;
-        cin >> f;
-    }
-}
-
-void getstring(string &f){
-    cin >> f;
-    while (cin.fail() || f.empty() ){
-        cin.clear();
-        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        cout << "Empty input, try agian" << endl;
-        cin >> f;
-    }
-}
-
-void calcRemaining(int *nc, vector<Dpops> Vpops){
-    nc[0] = 0;
-    nc[1] = 0;
-    nc[2] = 0;
-
-    int length = Vpops.size();
-    for( int i = 0; i < length; i++ ){
-        int sc = Vpops[i].ruleout();
-        switch (sc)
-        {
-            case 1:
-                nc[0] += Vpops[i].rpops();
-                break;
-            case 2:
-                nc[1] += Vpops[i].rpops();
-                break;
-            case 3:
-                nc[2] += Vpops[i].rpops();
-                break;
-            default:
-                break;
-        }
-    }
-}
-
-void assignRich(vector<Dpops> &Vpops, int *nc, int *tc, int j, int &tland, int &tcap, int &toff){
-    int landtracker = 0, captracker = 0, offtracker = 0;
-    int landtoremove, captoremove, offtoremove;
-    int length = Vpops.size();
-    for( int i = 0; i < length; i++){
-        int sc = Vpops[i].ruleout();
-        if ( sc == (j+1) ){
-            if( nc[j] > tc[0] ){
-                landtoremove = (tland*Vpops[i].rpops())/nc[j];
-                captoremove = (tcap*Vpops[i].rpops())/nc[j];
-                offtoremove = (toff*Vpops[i].rpops())/nc[j];
-                if(landtoremove != 1){
-                    Vpops[i].addpops(landtoremove,1);
-                }
-                if(captoremove != 1){
-                    Vpops[i].addpops(captoremove,2);   
-                }
-                if(offtoremove != 1){
-                    Vpops[i].addpops(offtoremove,7);
-                }
-                landtracker += landtoremove;
-                captracker += captoremove;
-                offtracker += offtoremove;
-            }
-            else{
-                landtoremove = (tland*Vpops[i].rpops())/tc[0];
-                captoremove = (tcap*Vpops[i].rpops())/tc[0];
-                offtoremove = (toff*Vpops[i].rpops())/tc[0];
-                if(landtoremove != 1){
-                    Vpops[i].addpops(landtoremove,1);
-                }
-                if(captoremove != 1){
-                    Vpops[i].addpops(captoremove,2);   
-                }
-                if(offtoremove != 1){
-                    Vpops[i].addpops(offtoremove,7);
-                }
-                landtracker += landtoremove;
-                captracker += captoremove;
-                offtracker += offtoremove;
-            }
-        }
-    }
-    tland -= landtracker;
-    tcap -= captracker;
-    toff -= offtracker;
-    tc[0] -= (landtracker + captracker + offtracker);
-}
-
-void assignMiddle(vector<Dpops> &Vpops, int *nc, int *tc, int j, int &tart, int &tbeau, int &tintel, int &tclerk, int &tsold){
-    int arttracker = 0, beautracker = 0, inteltracker = 0, clerktracker = 0, soldiertracker = 0;
-    int arttoremove, beautoremove, inteltoremove, clerktoremove, soldtoremove;
-    int length = Vpops.size();
-    for( int i = 0; i < length; i++){
-        int sc = Vpops[i].ruleout();
-        if( sc == j+1){
-            if( nc[j] > tc[1] ){
-                arttoremove = (tart*Vpops[i].rpops())/nc[j];
-                beautoremove = (tbeau*Vpops[i].rpops())/nc[j];
-                inteltoremove = (tintel*Vpops[i].rpops())/nc[j];
-                clerktoremove = (tclerk*Vpops[i].rpops())/nc[j];
-                soldtoremove = (tsold*Vpops[i].rpops())/nc[j]; 
-                if(arttoremove != 1){
-                    Vpops[i].addpops(arttoremove,3);
-                }
-                if(beautoremove != 1){
-                    Vpops[i].addpops(beautoremove,4);
-                }
-                if(inteltoremove != 1){
-                    Vpops[i].addpops(inteltoremove,5);
-                }
-                if(clerktoremove != 1){
-                    Vpops[i].addpops(clerktoremove,6);
-                }
-                if(soldtoremove != 1){
-                    Vpops[i].addpops(soldtoremove,13);
-                }
-                arttracker += arttoremove;
-                beautracker += beautoremove;
-                inteltracker += inteltoremove;
-                clerktracker += clerktoremove;
-                soldiertracker += soldtoremove;
-            }
-            else{
-                arttoremove = (tart*Vpops[i].rpops())/tc[1];
-                beautoremove = (tbeau*Vpops[i].rpops())/tc[1];
-                inteltoremove = (tintel*Vpops[i].rpops())/tc[1];
-                clerktoremove = (tclerk*Vpops[i].rpops())/tc[1];
-                soldtoremove = (tsold*Vpops[i].rpops())/tc[1];
-                if(arttoremove != 1){
-                    Vpops[i].addpops(arttoremove,3);
-                }
-                if(beautoremove != 1){
-                    Vpops[i].addpops(beautoremove,4);
-                }
-                if(inteltoremove != 1){
-                    Vpops[i].addpops(inteltoremove,5);
-                }
-                if(clerktoremove != 1){
-                    Vpops[i].addpops(clerktoremove,6);
-                }
-                if(soldtoremove != 1){
-                    Vpops[i].addpops(soldtoremove,13);
-                }
-                arttracker += arttoremove;
-                beautracker += beautoremove;
-                inteltracker += inteltoremove;
-                clerktracker += clerktoremove;
-                soldiertracker += soldtoremove;
-            }
-        }
-    }
-    tart -= arttracker;
-    tbeau -= beautracker;
-    tintel -= inteltracker;
-    tclerk -= clerktracker;
-    tsold -= soldiertracker;
-    tc[1] -= (arttracker + beautracker + inteltracker + clerktracker + soldiertracker);
-}
-
-void assignPoor(vector<Dpops> &Vpops, int *nc, int *tc, int j, int &tcraft){
-    int crafttracker = 0;
-    int crafttoremove;
-    int length = Vpops.size();
-    for( int i = 0; i < length; i++){
-        int sc = Vpops[i].ruleout();
-        if ( sc == j+1 ){
-            if( nc[j] > tc[2] ){
-                crafttoremove = (tcraft*Vpops[i].rpops())/nc[j];
-                if(crafttoremove != 1){
-                    Vpops[i].addpops(crafttoremove,8);
-                }
-                crafttracker += crafttoremove;
-            }
-            else{
-                crafttoremove = (tcraft*Vpops[i].rpops())/tc[2];
-                if(crafttoremove != 1){
-                    Vpops[i].addpops(crafttoremove,8);
-                }
-                crafttracker += crafttoremove;
-            }
-        }
-    }
-    tcraft -= crafttracker;
-    tc[0] -= (crafttracker);
-}
-
 void populate( bool batch )
 {
     vector<Dpops> Vpops;
     int sland, scap, sbeau, sintel, sclerk, soff, scraft, sart, ssold;
-    int nart, part, pfarm, pserf, pslave;
+    int part, pfarm, pserf, pslave;
     int totalpercent = 0, culturepercent;
     string culture, religion;
     int totalpop, culturepop, crule, state;
@@ -402,8 +29,8 @@ void populate( bool batch )
     cout << "How many capitalists?" << endl;
     getint(scap);
     cout << "Percentage of artisans (1=5%, 2=10%, 3=25%)?" << endl;
-    getint(nart, true, true);
-    switch (nart){
+    getint(sart, true, true);
+    switch (sart){
         case 1:
             part = 5;
             break;
@@ -433,7 +60,7 @@ void populate( bool batch )
 
     while ( loop )
     {
-        int tland = sland, tcap = scap, tbeau = sbeau, tintel = sintel, tclerk = sclerk, toff = soff, tcraft = scraft, nart = sart, tsold = ssold;
+        int tland = sland, tcap = scap, tbeau = sbeau, tintel = sintel, tclerk = sclerk, toff = soff, tcraft = scraft, tsold = ssold;
         cout << "What is the province number" << endl;
         getint(state);
         cout << "What is the total population of the province (1 = 1k)?" << endl;
@@ -485,60 +112,27 @@ void populate( bool batch )
             totalpercent += culturepercent;
         }
 
+        Dpops Totals = Dpops( "Totals","If you see this, you have an error",totalpop, 0 );
+        Totals.addpops(tland,1);
+        Totals.addpops(tcap,2);
+        Totals.addpops(toff,3);
+        Totals.addpops(tbeau,4);
+        Totals.addpops(tintel,5);
+        Totals.addpops(tclerk,6);
+        Totals.addpops(tsold,7);
+        Totals.addpops(tcraft,8);
+        Totals.addpops(tart,9);
+
         int length = Vpops.size();
-        int nc [3] = {0,0,0};
-        int tc [3] = {tland + tcap + toff,tart + tbeau + tintel + tclerk + tsold,0};
-        tc[2] = totalpop - ( tc[0] + tc[1]);
+        int debug_a = 0;
 
-        calcRemaining(nc, Vpops);
-
-        if(nc[0] < tc[0]){
-            cout << "Warning: Upper class too small, will split evenly into middle" << endl;
-        }
-
-        assignRich( Vpops, nc, tc, 0, tland, tcap, toff);
-
-        if (tc[0] > 0){
-            calcRemaining(nc, Vpops);
-
-            assignRich( Vpops, nc, tc, 1, tland, tcap, toff);
-
-            if (tc[0] > 0){
-                calcRemaining(nc, Vpops);
-
-                assignRich( Vpops, nc, tc, 2, tland, tcap, toff);
-            }
-        }
-
-        calcRemaining(nc, Vpops);
-
-        assignMiddle( Vpops, nc, tc, 0, tart, tbeau, tintel, tclerk, tsold);
-
-        if (tc[1] > 0){
-            calcRemaining(nc, Vpops);
-
-            assignMiddle( Vpops, nc, tc, 1, tart, tbeau, tintel, tclerk, tsold);
-
-            if (tc[1] > 0){
-                calcRemaining(nc, Vpops);
-
-                assignMiddle( Vpops, nc, tc, 2, tart, tbeau, tintel, tclerk, tsold);
-            }
-        }
-
-        calcRemaining(nc, Vpops);
-
-        assignPoor(Vpops, nc, tc, 0, tcraft);
-
-        if (tc[2] > 0){
-            calcRemaining(nc, Vpops);
-
-            assignPoor(Vpops, nc, tc, 1, tcraft);
-
-            if (tc[2] > 0){
-                calcRemaining(nc, Vpops);
-
-                assignPoor(Vpops, nc, tc, 2, tcraft);
+        for( int i = 1; i < 10; i++){
+            if(Totals.assignPops(Vpops,1,i)){
+                if(Totals.assignPops(Vpops,2,i)){
+                    if(Totals.assignPops(Vpops,3,i)){
+                        debug_a ++;
+                    }
+                }
             }
         }
 
@@ -547,7 +141,7 @@ void populate( bool batch )
             farmers = (pfarm*Vpops[i].rpops())/100;
             serfs = (pserf*Vpops[i].rpops())/100;
             slaves = (pslave*Vpops[i].rpops())/100;
-            Vpops[i].addpops(farmers,9);
+            Vpops[i].addpops(farmers,10);
             Vpops[i].addpops(serfs,11);
             Vpops[i].addpops(slaves,12);
         }
@@ -566,6 +160,7 @@ void populate( bool batch )
         outflow << "}";
 
         outflow.close();
+        Vpops.clear();
 
         if (!batch){
             loop = false;
