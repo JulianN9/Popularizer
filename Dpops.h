@@ -35,5 +35,3 @@ public:
 void getint(int &f, bool percent = false, bool crule = false);
 
 void getstring(std::string &f);
-
-void calcRemaining(int *nc, std::vector<Dpops> Vpops);

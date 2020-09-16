@@ -67,6 +67,7 @@ void populate( bool batch )
         getint(totalpop);
         totalpop *= 1000;
         int tart = (part*totalpop)/100;
+        cout << "The total amount of artisans is: " << tart << endl;
 
         while (totalpercent != 100)
         {
@@ -135,6 +136,7 @@ void populate( bool batch )
                 }
             }
         }
+        cout << debug_a << endl;
 
         for( int i = 0; i < length; i++){
             int farmers, serfs, slaves;

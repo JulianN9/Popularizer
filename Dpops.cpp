@@ -260,8 +260,17 @@ bool Dpops::assignPops(std::vector<Dpops> &Vpops, int wc, int wj){
     for( int i = 0; i < length; i++){
         int sc = Vpops[i].ruleout();
         if ( sc == wc ){
-            if( total > popsout(wj) ){
-                tracker = (popsout(wj)*Vpops[i].rpops())/total;
+            if( total > popsout(wj) || popsout(wj) == 0 ){
+                if ( popsout(wj) == 0) tracker= 0;
+                else if( (popsout(wj)*Vpops[i].rpops())/total > 0 ) tracker = (popsout(wj)*Vpops[i].rpops())/total;
+                else if( popsout(wj)*(Vpops[i].rpops()/total) > 0 ) tracker = popsout(wj)*(Vpops[i].rpops()/total);
+                else if( Vpops[i].rpops()*(popsout(wj)/total) > 0 ) tracker = Vpops[i].rpops()*(popsout(wj)/total);
+                else{
+                    tracker = 0;
+                    if( popsout(wj) != 1){
+                        cout << "BIG ERROR, REPEAT: BIG FUCKING ERROR" << endl;
+                    }
+                } 
                 Vpops[i].addpops(tracker,wj);
                 tally += tracker;
             }
@@ -299,8 +308,4 @@ void getstring(std::string &f){
         cout << "Empty input, try agian" << endl;
         cin >> f;
     }
-}
-
-void calcRemaining(int *nc, std::vector<Dpops> Vpops){
-
 }
