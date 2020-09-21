@@ -32,6 +32,6 @@ public:
     bool assignPops(std::vector<Dpops> &Vpops, int wc, int wj);
 };
 
-void getint(int &f, bool percent = false, bool crule = false);
+void getint(int &f, bool percent = false, bool crule = false, bool fourth = false );
 
 void getstring(std::string &f);

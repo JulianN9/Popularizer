@@ -28,9 +28,12 @@ void populate( bool batch )
     getint(sland);
     cout << "How many capitalists?" << endl;
     getint(scap);
-    cout << "Percentage of artisans (1=5%, 2=10%, 3=25%)?" << endl;
-    getint(sart, true, true);
+    cout << "Percentage of artisans (0=0%, 1=5%, 2=10%, 3=25%)?" << endl;
+    getint(sart, true, false, true);
     switch (sart){
+        case 0:
+            part = 0;
+            break;
         case 1:
             part = 5;
             break;

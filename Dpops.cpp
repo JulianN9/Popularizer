@@ -289,9 +289,9 @@ bool Dpops::assignPops(std::vector<Dpops> &Vpops, int wc, int wj){
     return end;
 }
 
-void getint(int &f, bool percent, bool crule){
+void getint(int &f, bool percent, bool crule, bool fourth){
     cin >> f;
-    while (cin.fail() || f < 0 || ( f > 100 && percent ) || ( ( f > 3 || f < 1 ) && crule ) ){
+    while (cin.fail() || f < 0 || ( f > 100 && percent ) || ( ( f > 3 || f < 1 ) && crule ) || ( ( f > 3 || f < 0 ) && fourth ) ){
         cin.clear();
         cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         f = -1;

@@ -1,0 +1,14 @@
+111 = {
+	farmers = { 
+		culture = armenian
+		religion = apostilic
+		size = 210000
+	}
+
+	serfs = { 
+		culture = armenian
+		religion = apostilic
+		size = 90000
+	}
+
+}
