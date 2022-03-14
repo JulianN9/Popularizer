@@ -13,52 +13,76 @@ using std::vector;
 using std::ofstream;
 using std::ifstream;
 
-void populate( bool batch )
+void populate( bool batch, bool percentage )
 {
     vector<Dpops> Vpops;
     int sland, scap, sbeau, sintel, sclerk, soff, scraft, sart, ssold;
-    int part, pfarm, pserf, pslave;
+    int part, pfarm, pserf, pslave, pland, pcap, pbeau, pintel, pclerk, poff, pcraft, psold;
     int totalpercent = 0, culturepercent;
     string culture, religion;
     int totalpop, culturepop, crule, state;
     char input;
     bool loop = true;
 
-    cout << "How many landowners?" << endl;
-    getint(sland);
-    cout << "How many capitalists?" << endl;
-    getint(scap);
-    cout << "Percentage of artisans (0=0%, 1=5%, 2=10%, 3=25%)?" << endl;
-    getint(sart, true, false, true);
-    switch (sart){
-        case 0:
-            part = 0;
-            break;
-        case 1:
-            part = 5;
-            break;
-        case 2:
-            part = 10;
-            break;
-        case 3:
-            part = 25;
-            break;
-        default:
-            cout << "error" << endl;
-            break;
+    if(percentage)
+    {
+        cout << "Percentage of landowners (1=1%)?" << endl;
+        getint(pland,true);
+        cout << "Percentage of capitalists?" << endl;
+        getint(pcap,true);
+        cout << "Percentage of artisans?" << endl;
+        getint(part, true);
+        cout << "Percentage of bureaucrats?" << endl;
+        getint(pbeau, true);
+        cout << "Percentage of intelectuals?" << endl; 
+        getint(pintel, true);
+        cout << "Percentage of clerks?" << endl;
+        getint(pclerk, true);
+        cout << "Percentage of officers?" << endl;
+        getint(poff, true);
+        cout << "Percentage of craftsmen?" << endl;
+        getint(pcraft, true);
+        cout << "Percentage of soldiers?" << endl;
+        getint(psold, true);
     }
-    cout << "How many bureaucrats?" << endl;
-    getint(sbeau);
-    cout << "How many intelectuals?" << endl; 
-    getint(sintel);
-    cout << "How many clerks?" << endl;
-    getint(sclerk);
-    cout << "How many officers?" << endl;
-    getint(soff);
-    cout << "How many craftsmen?" << endl;
-    getint(scraft);
-    cout << "How many soldiers?" << endl;
-    getint(ssold);
+    else
+    {
+        cout << "How many landowners?" << endl;
+        getint(sland);
+        cout << "How many capitalists?" << endl;
+        getint(scap);
+        cout << "Percentage of artisans (0=0%, 1=5%, 2=10%, 3=25%)?" << endl;
+        getint(sart, true, false, true);
+        switch (sart){
+            case 0:
+                part = 0;
+                break;
+            case 1:
+                part = 5;
+                break;
+            case 2:
+                part = 10;
+                break;
+            case 3:
+                part = 25;
+                break;
+            default:
+                cout << "error" << endl;
+                break;
+        }
+        cout << "How many bureaucrats?" << endl;
+        getint(sbeau);
+        cout << "How many intellectuals?" << endl; 
+        getint(sintel);
+        cout << "How many clerks?" << endl;
+        getint(sclerk);
+        cout << "How many officers?" << endl;
+        getint(soff);
+        cout << "How many craftsmen?" << endl;
+        getint(scraft);
+        cout << "How many soldiers?" << endl;
+        getint(ssold);
+    }
 
 
     while ( loop )
@@ -70,7 +94,29 @@ void populate( bool batch )
         getint(totalpop);
         totalpop *= 1000;
         int tart = (part*totalpop)/100;
-        cout << "The total amount of artisans is: " << tart << endl;
+        if(percentage){
+            tland = (pland*totalpop)/100;
+            cout << "The total amount of landowners is: " << tland << endl;
+            tcap = (pcap*totalpop)/100;
+            cout << "The total amount of capitalists is: " << tcap << endl;
+            cout << "The total amount of artisans is: " << tart << endl;
+            tbeau = (pbeau*totalpop)/100;
+            cout << "The total amount of beaurocrats is: " << tbeau << endl;
+            tintel = (pintel*totalpop)/100;
+            cout << "The total amount of intellectuals is: " << tintel << endl;
+            tclerk = (pclerk*totalpop)/100;
+            cout << "The total amount of clerks is: " << tclerk << endl;
+            toff = (poff*totalpop)/100;
+            cout << "The total amount of officers is: " << toff << endl;
+            tcraft = (pcraft*totalpop)/100;
+            cout << "The total amount of craftsmen is: " << tcraft << endl;
+            tsold = (psold*totalpop)/100;
+            cout << "The total amount of soldiers is: " << tsold << endl;
+        }
+        else{
+            cout << "The total amount of artisans is: " << tart << endl;
+        }
+
 
         while (totalpercent != 100)
         {
@@ -78,7 +124,7 @@ void populate( bool batch )
                 totalpercent = 0;
                 cout << "Went over 100 percent, try again." << endl;
             }
-            cout << "For the remainder, what is the percentage of farmers (10 = 10%)?" << endl;
+            cout << "For the remainder (these three should add up to 100), what is the percentage of farmers (1 = 1%)?" << endl;
             getint(pfarm,true);
             cout << "Of serf?" << endl;
             getint(pserf,true);
@@ -90,7 +136,7 @@ void populate( bool batch )
 
 
         totalpercent = 0;
-        cout << "We will now loop through every population in the state"<< endl;
+        cout << "We will now loop through every culture and religion group in the state"<< endl;
 
         while(totalpercent != 100){
             if (totalpercent > 100 || totalpercent < 0){
@@ -101,9 +147,9 @@ void populate( bool batch )
             cout << "Population: " << Vpops.size()+1 << endl;
             cout << "What is the culture of this population (exact name for the file)?" << endl;
             getstring(culture);
-            cout << "What is the religion of this culutre (exact name)?" << endl;
+            cout << "What is the religion of this culture (exact name)?" << endl;
             getstring(religion);
-            cout << "Is this pop ruling (1), middle (2) or lower (3) class?" << endl;
+            cout << "Is this pop ruling (1), middle (2) or lower (3) class? (this determines distribution of jobs)" << endl;
             getint(crule,true,true);
             cout << "What is the percentage of the population of this province?" << endl;
             getint(culturepercent,true);
@@ -182,7 +228,7 @@ void populate( bool batch )
 }
 
 int main (){
-    bool batch = false, realinput = false, run = true;
+    bool batch = false, realinput = false, run = true, percentage = false;
     char input;
 
     cout << "Welcome, do you wan to run in batch mode (y/n/h)" << endl;
@@ -205,9 +251,31 @@ int main (){
         }
     }
 
+    realinput = false;
+    cout << "Do you wan to use percentages instead of numbers for pops? (y/n/h)" << endl;
+    while ( !realinput ){
+        cin >> input;
+        switch (input)
+        {
+            case 'y':
+                percentage = true;
+                realinput = true;
+                break;
+            case 'n':
+                percentage = false;
+                realinput = true;
+                break;
+            case 'h':
+                cout << "Percentage mode (y) makes all inputs percentages (inputted 0-100), turning it off (n) will only leave artisan and farmer/slave/serf pops as percentages."<<endl;
+                break;
+            default:
+                break;
+        }
+    }
+
     while( run ){
-        populate( batch );
-        cout << "Do you want to run again?" << endl;
+        populate( batch, percentage );
+        cout << "Do you want to run again? (y/n)" << endl;
         cin >> input;
         switch (input)
         {
