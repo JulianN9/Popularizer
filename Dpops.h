@@ -34,4 +34,6 @@ public:
 
 void getint(int &f, bool percent = false, bool crule = false, bool fourth = false );
 
+void getpercent(double &p );
+
 void getstring(std::string &f);

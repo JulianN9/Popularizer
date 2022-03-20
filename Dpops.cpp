@@ -1,5 +1,5 @@
+/* The following are the definition of the classes used in the program to calculate the division of jobs between pop groups.*/
 #include "Dpops.h"
-
 #include <string>
 #include <iostream>
 #include <fstream>
@@ -20,6 +20,7 @@ int tpops, rule;
 
 int landpops, cappops, artpops, beaurpops, intelpops, clerkpops, offpops, craftpops, farmpops, serfpops, slavepops, soldierpops;
 
+//These first two are constructors for the Dpops class, the first one for the null input and the second for a given culture and religion
 Dpops::Dpops(){
     culture = "";
     religion = "";
@@ -39,16 +40,19 @@ Dpops::Dpops( std::string clt, std::string rlg, int culturepop, int culturerule 
     craftpops = 0, farmpops = 0, serfpops = 0, slavepops = 0, soldierpops = 0;
 }
 
+//Rule is a variable which determines how pops are distributed (upper/lower/middle class generally). This function displays it for debugging
 int Dpops::ruleout(){
     return rule;
 }
 
+//The print function is also for debugging, displaying the various jobs of the pops for the given culture/religion.
 void Dpops::print(){
     cout << "The " << religion << " " << culture << " population has " << tpops << " people, of which:" <<endl;
     cout << landpops << " are landowners, " << cappops << " are capitalists, " << artpops << " are artisans " << beaurpops << " are bureaucrats, " << intelpops << " are intellectuals, " << clerkpops << " are clerks, " << endl;
     cout << offpops << " are officers, " << craftpops << " are craftsmen, " << farmpops << " are farmers " << serfpops << " are serfs, " << slavepops << " are slaves, " << soldierpops << " are soldiers." << endl;
 }
 
+//The output function is what translates this information into the blocks of lua text to be put in a text file.
 void Dpops::output(std::ofstream &outstream){
     if (landpops>1){
         outstream << "\taristocrats = { \n"
@@ -148,10 +152,12 @@ void Dpops::output(std::ofstream &outstream){
     }
 }
 
+//rpops stands for remaining pops, and that is what it calculates.
 int Dpops::rpops(){
     return tpops - ( landpops + cappops + artpops + beaurpops + intelpops + clerkpops + offpops + craftpops + farmpops + serfpops + slavepops + soldierpops );
 }
 
+//popsout displays a given poptype for debugging depending on an inputted integer (1-12)
 int Dpops::popsout( int which ){
     int output;
     switch (which){
@@ -244,6 +250,8 @@ void Dpops::addpops( int sol, int which ){
     }
 }
 
+//Assign Pops is the function which distrubutes the pops across various jobs based on the total jobs class 
+//Vpops is a vectors of pops classes, wc is an integer determining which class (upper/middle/lower), wj determines which job is being assigned.
 bool Dpops::assignPops(std::vector<Dpops> &Vpops, int wc, int wj){
     int tracker = 0;
     int tally = 0;
@@ -289,6 +297,7 @@ bool Dpops::assignPops(std::vector<Dpops> &Vpops, int wc, int wj){
     return end;
 }
 
+//getint is a simple function which allows the imputting of integers which some simple error correction
 void getint(int &f, bool percent, bool crule, bool fourth){
     cin >> f;
     while (cin.fail() || f < 0 || ( f > 100 && percent ) || ( ( f > 3 || f < 1 ) && crule ) || ( ( f > 3 || f < 0 ) && fourth ) ){
@@ -300,6 +309,18 @@ void getint(int &f, bool percent, bool crule, bool fourth){
     }
 }
 
+void getpercent(double &p){
+    cin >> p;
+    while ( cin.fail() || p > 100 || p < 0 ){
+        cin.clear();
+        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        p = -1;
+        cout << "Invalid input, try agian" << endl;
+        cin >> p;
+    }
+}
+
+//getstring is the same for strings
 void getstring(std::string &f){
     cin >> f;
     while (cin.fail() || f.empty() ){

@@ -17,7 +17,7 @@ void populate( bool batch, bool percentage )
 {
     vector<Dpops> Vpops;
     int sland, scap, sbeau, sintel, sclerk, soff, scraft, sart, ssold;
-    int part, pfarm, pserf, pslave, pland, pcap, pbeau, pintel, pclerk, poff, pcraft, psold;
+    double part, pfarm, pserf, pslave, pland, pcap, pbeau, pintel, pclerk, poff, pcraft, psold;
     int totalpercent = 0, culturepercent;
     string culture, religion;
     int totalpop, culturepop, crule, state;
@@ -27,23 +27,23 @@ void populate( bool batch, bool percentage )
     if(percentage)
     {
         cout << "Percentage of landowners (1=1%)?" << endl;
-        getint(pland,true);
+        getpercent(pland);
         cout << "Percentage of capitalists?" << endl;
-        getint(pcap,true);
+        getpercent(pcap);
         cout << "Percentage of artisans?" << endl;
-        getint(part, true);
+        getpercent(part);
         cout << "Percentage of bureaucrats?" << endl;
-        getint(pbeau, true);
+        getpercent(pbeau);
         cout << "Percentage of intelectuals?" << endl; 
-        getint(pintel, true);
+        getpercent(pintel);
         cout << "Percentage of clerks?" << endl;
-        getint(pclerk, true);
+        getpercent(pclerk);
         cout << "Percentage of officers?" << endl;
-        getint(poff, true);
+        getpercent(poff);
         cout << "Percentage of craftsmen?" << endl;
-        getint(pcraft, true);
+        getpercent(pcraft);
         cout << "Percentage of soldiers?" << endl;
-        getint(psold, true);
+        getpercent(psold);
     }
     else
     {
@@ -125,11 +125,11 @@ void populate( bool batch, bool percentage )
                 cout << "Went over 100 percent, try again." << endl;
             }
             cout << "For the remainder (these three should add up to 100), what is the percentage of farmers (1 = 1%)?" << endl;
-            getint(pfarm,true);
+            getpercent(pfarm);
             cout << "Of serf?" << endl;
-            getint(pserf,true);
+            getpercent(pserf);
             cout << "Of slaves?" << endl;
-            getint(pslave,true); 
+            getpercent(pslave); 
 
             totalpercent = pfarm + pserf + pslave;
         }
